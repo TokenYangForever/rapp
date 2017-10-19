@@ -15,7 +15,7 @@ class App extends Component {
     alert('clickAction')
   }
   message () {
-    return `${this.props.name}:${this.stateA.time}`
+    return <span>{`${this.props.name}:${this.stateA.time}`}</span>
   }
   render () {
     return (
