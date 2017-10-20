@@ -14,20 +14,34 @@ class App extends Component {
     this.clickAction = this.clickAction.bind(this)
   }
   clickAction () {
-    this.setState({name: `${this.state.name}Hello`})
-    alert('clickAction')
+    // setState 调用state和props时要传入一个函数
+    this.setState((pstate, props) => {
+      return {
+        name: `${pstate.name}click`
+      }
+    })
+  }
+  mapList () {
+    return this.arr.map((item, index) => <li key={index}>{item}</li>)
   }
   message () {
     return <span>{`${this.state.name}:${this.state.time}`}</span>
   }
+  componentWillMount () {
+    console.log('componentWillMount')
+  }
+  componentDidMount () {
+    console.log('componentDidMount')
+  }
   render () {
+    console.log('render')
     return (
       <div className='App'>
         <header className='App-header'>
           <h1 className='App-title'>Welcome to {this.state.time.toLocaleTimeString()}</h1>
         </header>
         <ul>
-          {this.arr.map((item, index) => <li key={index}>{item}</li>)}
+          {this.mapList()}
         </ul>
         <p>
           {this.message()}
