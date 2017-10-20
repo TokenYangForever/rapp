@@ -5,26 +5,29 @@ import './App.css'
 class App extends Component {
   constructor () {
     super()
-    this.stateA = {
+    this.state = {
       name: '访问者',
-      time: Date.now()
+      time: new Date()
     }
     this.arr = ['item1', 'item2', 'item3']
+    // 这个绑定是必要的，使`this`在回调中起作用
+    this.clickAction = this.clickAction.bind(this)
   }
   clickAction () {
+    this.setState({name: `${this.state.name}Hello`})
     alert('clickAction')
   }
   message () {
-    return <span>{`${this.props.name}:${this.stateA.time}`}</span>
+    return <span>{`${this.state.name}:${this.state.time}`}</span>
   }
   render () {
     return (
       <div className='App'>
         <header className='App-header'>
-          <h1 className='App-title'>Welcome to</h1>
+          <h1 className='App-title'>Welcome to {this.state.time.toLocaleTimeString()}</h1>
         </header>
         <ul>
-          {this.arr.map(item => <li key={item}>{item}</li>)}
+          {this.arr.map((item, index) => <li key={index}>{item}</li>)}
         </ul>
         <p>
           {this.message()}
