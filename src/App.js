@@ -91,8 +91,12 @@ class App extends Component {
     let {history, step, playerX} = this.state
     let winner = this.judgeWinner()
     let token = playerX ? 'X' : 'O'
-    let stateText = winner ? `${token}玩家你输了！` : `当前玩家:${token}`
-
+    let stateText = ''
+    if (step === 9 && !winner) {
+      stateText = '平局~~~'
+    } else {
+      stateText = winner ? `${token}玩家你输了！` : `当前玩家:${token}`
+    }
     return (
       <div className='App'>
         <p>{stateText}</p>
