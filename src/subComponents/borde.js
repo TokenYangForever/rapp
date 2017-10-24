@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
-import Square from './square.js'
+import Square from './square'
 
 class Borde extends Component {
   constructor (ops) {
     super()
   }
   renderSquare (index) {
-    return <Square squareClicked={this.handleClick} value={this.props.current[index]} index={index} />
+    let {winSteps, current} = this.props
+    let iswin = winSteps && winSteps.includes(index)
+
+    return <Square winStep={iswin} squareClicked={this.handleClick} value={current[index]} index={index} />
   }
   handleClick = (index) => {
     this.props.onClick(index)

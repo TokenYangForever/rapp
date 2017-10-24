@@ -6,17 +6,17 @@ class Square extends Component {
     this.clickAction = this.clickAction.bind(this)
   }
   clickAction () {
-  	if (!this.props.value.val) {
-  		this.props.squareClicked(this.props.index)
-  	}
+    if (!this.props.value) {
+      this.props.squareClicked(this.props.index)
+    }
   }
   className () {
-  	return this.props.value.winStep ? 'sq-item sq-winItem' : `sq-item`
+    return this.props.winStep ? 'sq-item sq-winItem' : `sq-item`
   }
   render () {
-  	return (
-    	<button className={this.className()} onClick={this.clickAction}>{this.props.value.val}</button>
-  	)
+    return (
+      <button className={this.className()} onClick={this.clickAction}>{this.props.value}</button>
+    )
   }
 }
 export default Square

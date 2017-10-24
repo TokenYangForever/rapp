@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 // import logo from './logo.svg';
 import './App.css'
 
-import Borde from './subComponents/borde.js'
+import Borde from './subComponents/borde'
 
 class App extends Component {
   constructor (ops) {
@@ -11,7 +11,8 @@ class App extends Component {
     this.state = {
       history: this.getNewArray(),
       step: 0,
-      playerX: true
+      playerX: true,
+      winSteps: null
     }
     // 这个绑定是必要的，使`this`在回调中起作用
     this.clickAction = this.clickAction.bind(this)
@@ -20,7 +21,7 @@ class App extends Component {
   getNewArray () {
     let arr = new Array(9)
     for (let i = 0; i < 9; i++) {
-      arr[i] = {val: null, winStep: false}
+      arr[i] = null
     }
     return [arr]
   }
@@ -32,22 +33,27 @@ class App extends Component {
     })
   }
   clickAction (i) {
-    if (this.judgeWinner()) {
+    window.his = this.state.history
+    let {history, step, playerX, winSteps} = this.state
+    if (winSteps) {
       return
     }
-    let {history, step, playerX} = this.state
-    let current = history[step]
-    current[i].val = playerX ? 'X' : 'O'
+
+    let current = [...history[step]]
+    current[i] = playerX ? 'X' : 'O'
+    winSteps = this.judgeWinner(current)
     history.push(current)
     step += 1
     playerX = !playerX
+
     this.setState({
       step,
       history,
-      playerX
+      playerX,
+      winSteps
     })
   }
-  judgeWinner () {
+  judgeWinner (current) {
     let indexArray = [
       [0, 1, 2],
       [3, 4, 5],
@@ -58,18 +64,10 @@ class App extends Component {
       [0, 4, 8],
       [2, 4, 6]
     ]
-    let current = this.state.history[this.state.step]
     for (let i = 0; i < indexArray.length; i++) {
       let arr = indexArray[i]
-      if (current[arr[0]].val && current[arr[0]].val === current[arr[1]].val && current[arr[0]].val === current[arr[2]].val) {
-        if (!current[arr[0]].winStep) {
-          current[arr[0]].winStep = true
-          current[arr[1]].winStep = true
-          current[arr[2]].winStep = true
-          let newHis = this.state.history
-          newHis[this.state.step] = current
-        }
-        return current[arr[0]]
+      if (current[arr[0]] && current[arr[0]] === current[arr[1]] && current[arr[0]] === current[arr[2]]) {
+        return arr
       }
     }
     return null
@@ -81,27 +79,36 @@ class App extends Component {
   message () {
     return <span>{`${this.state.name}:${this.state.time}`}</span>
   }
-  componentWillMount () {
-    // console.log('componentWillMount')
-  }
-  componentDidMount () {
-    // console.log('componentDidMount')
+  undoAction = () => {
+    let {history, step, playerX} = this.state
+    if (!step) 
+      return
+    step--
+    history.pop()
+    playerX = !playerX
+    this.setState({
+      history,
+      step,
+      playerX,
+      winSteps: null
+    })
   }
   render () {
-    let {history, step, playerX} = this.state
-    let winner = this.judgeWinner()
+    let {history, step, playerX, winSteps} = this.state
     let token = playerX ? 'X' : 'O'
     let stateText = ''
-    if (step === 9 && !winner) {
+    if (step === 9 && !winSteps) {
       stateText = '平局~~~'
     } else {
-      stateText = winner ? `${token}玩家你输了！` : `当前玩家:${token}`
+      stateText = winSteps ? `${token}玩家你输了！` : `当前玩家:${token}`
     }
     return (
       <div className='App'>
+        {false && <h3>条件渲染</h3>}
         <p>{stateText}</p>
-        <Borde current={history[step]} onClick={this.clickAction} />
+        <Borde winSteps={winSteps} current={history[step]} onClick={this.clickAction} />
         <button onClick={this.resetAction}>重置按钮</button>
+        <button onClick={this.undoAction}>悔棋按钮</button>
       </div>
     )
   }
