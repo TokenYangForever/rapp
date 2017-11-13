@@ -82,10 +82,6 @@ class App extends Component {
     }
     return null
   }
-  mapList () {
-    // 遍历list使用map, 每一项需要指定特定的key
-    return this.arr.map((item, index) => <li key={index}>{item}</li>)
-  }
   message () {
     return <span>{`${this.state.name}:${this.state.time}`}</span>
   }

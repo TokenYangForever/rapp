@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
 import App from './App'
+import Home from './Home'
 
 import {
   BrowserRouter as Router,
@@ -25,12 +26,6 @@ const HomeTab = () => (
       <Route path='/topics' component={App} />
     </div>
   </Router>
-)
-
-const Home = () => (
-  <div>
-    <h2>Home</h2>
-  </div>
 )
 
 const About = () => (
