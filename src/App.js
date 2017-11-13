@@ -14,9 +14,9 @@ class App extends Component {
       playerX: true,
       winSteps: null
     }
-    // 这个绑定是必要的，使`this`在回调中起作用
-    this.clickAction = this.clickAction.bind(this)
-    this.resetAction = this.resetAction.bind(this)
+    // 这个绑定是必要的，使`this`在回调中起作用，或者使用箭头函数
+    // this.clickAction = this.clickAction.bind(this)
+    // this.resetAction = this.resetAction.bind(this)
   }
   getNewArray () {
     let arr = new Array(9)
@@ -25,14 +25,14 @@ class App extends Component {
     }
     return [arr]
   }
-  resetAction () {
+  resetAction = () => {
     this.setState({
       history: this.getNewArray(),
       step: 0,
       playerX: true
     })
   }
-  clickAction (i) {
+  clickAction = (i) => {
     window.his = this.state.history
     let {history, step, playerX, winSteps} = this.state
     if (winSteps) {
