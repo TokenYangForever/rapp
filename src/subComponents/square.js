@@ -10,12 +10,9 @@ class Square extends Component {
       this.props.squareClicked(this.props.index)
     }
   }
-  className () {
-    return this.props.winStep ? 'sq-item sq-winItem' : `sq-item`
-  }
   render () {
     return (
-      <button className={this.className()} onClick={this.clickAction}>{this.props.value}</button>
+      <button className={this.props.winStep ? 'sq-item sq-winItem' : `sq-item`} onClick={this.clickAction}>{this.props.value}</button>
     )
   }
 }
