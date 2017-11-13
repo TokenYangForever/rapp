@@ -12,7 +12,8 @@ class App extends Component {
       history: this.getNewArray(),
       step: 0,
       playerX: true,
-      winSteps: null
+      winSteps: null,
+      stateText: ''
     }
     // 这个绑定是必要的，使`this`在回调中起作用，或者使用箭头函数
     // this.clickAction = this.clickAction.bind(this)
@@ -29,12 +30,13 @@ class App extends Component {
     this.setState({
       history: this.getNewArray(),
       step: 0,
-      playerX: true
+      playerX: true,
+      stateText: ''
     })
   }
   clickAction = (i) => {
     window.his = this.state.history
-    let {history, step, playerX, winSteps} = this.state
+    let {history, step, playerX, winSteps, stateText} = this.state
     if (winSteps) {
       return
     }
@@ -46,11 +48,19 @@ class App extends Component {
     step += 1
     playerX = !playerX
 
+    let token = playerX ? 'X' : 'O'
+    if (step === 9 && !winSteps) {
+      stateText = '平局~~~'
+    } else {
+      stateText = winSteps ? `${token}玩家你输了！` : `当前玩家:${token}`
+    }
+
     this.setState({
       step,
       history,
       playerX,
-      winSteps
+      winSteps,
+      stateText
     })
   }
   judgeWinner (current) {
@@ -94,14 +104,7 @@ class App extends Component {
     })
   }
   render () {
-    let {history, step, playerX, winSteps} = this.state
-    let token = playerX ? 'X' : 'O'
-    let stateText = ''
-    if (step === 9 && !winSteps) {
-      stateText = '平局~~~'
-    } else {
-      stateText = winSteps ? `${token}玩家你输了！` : `当前玩家:${token}`
-    }
+    let {history, step, winSteps, stateText} = this.state
     return (
       <div className='App'>
         {false && <h3>条件渲染</h3>}
