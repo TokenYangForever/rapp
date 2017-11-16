@@ -17,7 +17,6 @@ class App extends Component {
     }
     // 这个绑定是必要的，使`this`在回调中起作用，或者使用箭头函数
     // this.clickAction = this.clickAction.bind(this)
-    // this.resetAction = this.resetAction.bind(this)
   }
   getNewArray () {
     let arr = new Array(9)

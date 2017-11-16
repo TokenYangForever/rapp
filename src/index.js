@@ -14,7 +14,7 @@ const HomeTab = () => (
   <Router>
     <div>
       <ul>
-        <li><Link to='/'>Home</Link></li>
+        <li><Link to='/'>数独数组</Link></li>
         <li><Link to='/about'>About</Link></li>
         <li><Link to='/topics'>三子棋</Link></li>
       </ul>
