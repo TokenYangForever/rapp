@@ -16,14 +16,14 @@ const HomeTab = () => (
       <ul>
         <li><Link to='/'>数独数组</Link></li>
         <li><Link to='/about'>About</Link></li>
-        <li><Link to='/topics'>三子棋</Link></li>
+        <li><Link to='/sanziqi'>三子棋</Link></li>
       </ul>
 
       <hr />
 
       <Route exact path='/' component={Home} />
       <Route path='/about' component={About} />
-      <Route path='/topics' component={App} />
+      <Route path='/sanziqi' component={App} />
     </div>
   </Router>
 )

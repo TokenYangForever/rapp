@@ -54,7 +54,7 @@ class App extends Component {
   getQueArr = () => {
     let arr = [...this.state.arr]
     console.time('getQueArr')
-    for (let i = 0; i < 41; i++) {
+    for (let i = 0; i < 21; i++) {
       arr = this.getBlock(arr)
     }
     console.timeEnd('getQueArr')
@@ -78,8 +78,8 @@ class App extends Component {
       <div>
         <ul>
           {arr.map((item, index) =>
-            <li key={index}>
-              {item.map((sItem, sIndex) => <span className='sd-span' key={`${index}${sIndex}`}>{sItem}</span>)}
+            <li className='b-row' key={index}>
+              {item.map((sItem, sIndex) => <button className='sd-span' key={`${index}${sIndex}`}>{sItem}</button>)}
             </li>
           )}
         </ul>
