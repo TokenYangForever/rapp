@@ -16,7 +16,20 @@ class App extends Component {
         [5, 3, 1, 6, 4, 2, 9, 7, 8],
         [6, 4, 2, 9, 7, 8, 5, 3, 1],
         [9, 7, 8, 5, 3, 1, 6, 4, 2]
-      ]
+      ],
+      result: []
+    }
+    window.vm = this
+  }
+  async componentDidMount () {
+    try {
+      let res = await fetch('http://101.200.35.148:8081/todo/getTodo')
+      let {result} = await res.json()
+      this.setState({
+        result
+      })
+    } catch(e) {
+      console.log(e)
     }
   }
   randomArr = () => {
@@ -73,7 +86,7 @@ class App extends Component {
     }
   }
   render () {
-    let arr = this.state.arr
+    let {arr, result} = this.state
     return (
       <div>
         <ul>
@@ -85,6 +98,7 @@ class App extends Component {
         </ul>
         <button onClick={this.randomArr}>打乱</button>
         <button onClick={this.getQueArr}>挖洞</button>
+        {result.length > 0 ? <div>result长度：{result.length}</div> : <div></div>}
       </div>
     )
   }
