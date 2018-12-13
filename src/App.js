@@ -1,115 +1,45 @@
-import React, { Component } from 'react'
-// import logo from './logo.svg';
-import './App.css'
-
-import Borde from './subComponents/borde'
+import React, { Component } from 'react';
+import logo from './logo.svg';
+import './App.css';
 
 class App extends Component {
-  constructor (ops) {
-    // this.props == ops -> true
-    super()
-    this.state = {
-      history: this.getNewArray(),
-      step: 0,
-      playerX: true,
-      winSteps: null,
-      stateText: ''
-    }
-    // 这个绑定是必要的，使`this`在回调中起作用，或者使用箭头函数
-    // this.clickAction = this.clickAction.bind(this)
+  constructor(props) {
+    super(props);
+    this.state = {date: new Date()};
   }
-  getNewArray () {
-    let arr = new Array(9)
-    for (let i = 0; i < 9; i++) {
-      arr[i] = null
-    }
-    return [arr]
-  }
-  resetAction = () => {
-    this.setState({
-      history: this.getNewArray(),
-      step: 0,
-      playerX: true,
-      stateText: ''
+  componentDidMount () {
+    this.evtSource = new EventSource("http://localhost:3001/es");
+    this.evtSource.addEventListener('test', e => {
+      let date = JSON.parse(e.data)
+      this.setState({
+        date: new Date(date.b)
+      })
+    });
+    this.evtSource.addEventListener('error', e => {
+      this.evtSource.close()
     })
   }
-  clickAction = (i) => {
-    window.his = this.state.history
-    let {history, step, playerX, winSteps, stateText} = this.state
-    if (winSteps) {
-      return
-    }
-
-    let current = [...history[step]]
-    current[i] = playerX ? 'X' : 'O'
-    winSteps = this.judgeWinner(current)
-    history.push(current)
-    step += 1
-    playerX = !playerX
-
-    let token = playerX ? 'X' : 'O'
-    if (step === 9 && !winSteps) {
-      stateText = '平局~~~'
-    } else {
-      stateText = winSteps ? `${token}玩家你输了！` : `当前玩家:${token}`
-    }
-
-    this.setState({
-      step,
-      history,
-      playerX,
-      winSteps,
-      stateText
-    })
-  }
-  judgeWinner (current) {
-    let indexArray = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6]
-    ]
-    for (let i = 0; i < indexArray.length; i++) {
-      let arr = indexArray[i]
-      if (current[arr[0]] && current[arr[0]] === current[arr[1]] && current[arr[0]] === current[arr[2]]) {
-        return arr
-      }
-    }
-    return null
-  }
-  message () {
-    return <span>{`${this.state.name}:${this.state.time}`}</span>
-  }
-  undoAction = () => {
-    let {history, step, playerX} = this.state
-    if (!step) 
-      return
-    step--
-    history.pop()
-    playerX = !playerX
-    this.setState({
-      history,
-      step,
-      playerX,
-      winSteps: null
-    })
-  }
-  render () {
-    let {history, step, winSteps, stateText} = this.state
+  render() {
     return (
-      <div className='App'>
-        {false && <h3>条件渲染</h3>}
-        <p>{stateText}</p>
-        <Borde winSteps={winSteps} current={history[step]} onClick={this.clickAction} />
-        <button onClick={this.resetAction}>重置按钮</button>
-        <button onClick={this.undoAction}>悔棋按钮</button>
+      <div className="App">
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <p>
+            Edit <code>src/App.js</code> and save to reload
+          </p>
+          <p>当前时间：{this.state.date.toLocaleTimeString()}</p>
+          <a
+            className="App-link"
+            href="https://reactjs.org"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Learn React
+          </a>
+        </header>
       </div>
-    )
+    );
   }
 }
 
-export default App
+export default App;
